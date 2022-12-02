@@ -1,0 +1,21 @@
+#!/bin/bash
+
+YEAR="$(date +%Y)"
+
+if [ -z "$1" ]; then
+    echo "Please specify the day. Examples: start 3, start 17"
+    exit 1
+fi
+
+day="$(printf "%02d" "$1")"
+
+echo "Starting day $day"
+
+mkdir -p "$YEAR/$day/inputs"
+
+if ! aocdl -year "$YEAR" -day "$day" -output "$YEAR/$day/inputs/input.txt"; then
+    echo "Failed to download inputs"
+    exit 1
+fi
+
+echo "Downloaded input.txt to $YEAR/$day/inputs"
