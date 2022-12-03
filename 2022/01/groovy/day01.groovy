@@ -15,4 +15,7 @@ while (in.hasNextLine()) {
     calories += line as int
 }
 
-println elves.max()
+elves << calories
+
+println "Elf carrying most calories: ${elves.max()}"
+println "Three Elves carrying most calories: ${elves.sort().reverse().take(3).sum()}"
