@@ -12,9 +12,9 @@ mappings = [
     A: 'rock',
     B: 'paper',
     C: 'scissors',
-    X: 'rock',
-    Y: 'paper',
-    Z: 'scissors',
+    X: LOSS,
+    Y: DRAW,
+    Z: WIN,
 ]
 
 totalScore = 0
@@ -22,16 +22,17 @@ totalScore = 0
 while (in.hasNextLine()) {
     line = in.nextLine()
 
-    def (opponent, me) = line.tokenize(' ')
+    def (opponent, outcome) = line.tokenize(' ')
 
-    def shape = mappings[me]
-    def round = "${mappings[opponent]} $shape".toString()
-    def o = outcome(round)
-    def s = score(shape, o)
+    def shape = findShape(mappings[opponent], mappings[outcome])
+
+    println "$line: (shape: $shape)"
+
+    def s = score(shape, mappings[outcome])
 
     totalScore += s
 
-    println "round: $round (outcome: $o, score: $s)"
+    println "round: (outcome: ${mappings[outcome]}, score: $s)"
 }
 
 println "total: $totalScore"
@@ -59,5 +60,26 @@ def score(shape, outcome) {
         case WIN -> 6
         case DRAW -> 3
         case LOSS -> 0
+    }
+}
+
+def findShape(opponent, outcome) {
+    println "opponent: $opponent, outcome: $outcome"
+    switch (opponent) {
+        case 'rock' -> switch (outcome) {
+            case WIN -> 'paper'
+            case DRAW -> 'rock'
+            case LOSS -> 'scissors'
+        }
+        case 'paper' -> switch (outcome) {
+            case WIN -> 'scissors'
+            case DRAW -> 'paper'
+            case LOSS -> 'rock'
+        }
+        case 'scissors' -> switch (outcome) {
+            case WIN -> 'rock'
+            case DRAW -> 'scissors'
+            case LOSS -> 'paper'
+        }
     }
 }
